@@ -1,0 +1,95 @@
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  background: #f8f9fa;
+  color: #222;
+}
+
+header {
+  background: #004d61;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.subtitle {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+main {
+  padding: 20px;
+}
+
+footer {
+  background: #004d61;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 12px;
+}
+
+form.data-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 700px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+button {
+  background: #006d83;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #008ea8;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 5px;
+}
+
+.button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.menu-button {
+  display: inline-block;
+  background: #006d83;
+  color: #fff;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.menu-button:hover {
+  background: #008ea8;
+}
+
+.info-text {
+  font-size: 12px;
+  color: #555;
+}
+

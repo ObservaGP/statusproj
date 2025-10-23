@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organizações — StatusProj</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header>
+    <h1>ORGANIZAÇÕES</h1>
+    <nav><a href="../index.html">← Voltar</a></nav>
+  </header>
+
+  <main>
+    <form class="data-form">
+      <label>Nome:<input type="text" name="nome"></label>
+      <label>Sigla:<input type="text" name="sigla"></label>
+      <label>Tipo:<input type="text" name="tipo"></label>
+      <label>Nome Fantasia:<input type="text" name="nome_fantasia"></label>
+      <label>CNPJ:<input type="text" name="cnpj" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="00.000.000/0000-00"></label>
+
+      <label>Área de Atuação:
+        <select name="area_atuacao" id="areaAtuacaoSelect" onchange="addCustomOption(this)">
+          <option value="">Selecione...</option>
+          <option>Indústrias Extrativas</option>
+          <option>Indústrias de transformação</option>
+          <option>Administração pública, defesa e seguridade social</option>
+          <option>Outras atividades e serviços</option>
+          <option value="nova">Inserir nova Área de Atuação...</option>
+        </select>
+      </label>
+
+      <label>Porte:
+        <select name="porte" id="porteSelect" onchange="addCustomOption(this)">
+          <option value="">Selecione...</option>
+          <option>Grandes Organizações</option>
+          <option>Organização de pequeno porte</option>
+          <option value="nova">Inserir novo Porte...</option>
+        </select>
+      </label>
+
+      <label>Observações:<textarea name="observacoes" rows="4"></textarea></label>
+      <button type="submit">Salvar</button>
+    </form>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
+
