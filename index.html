@@ -1,20 +1,42 @@
-<main>
-  <section class="menu">
-    <h2>Páginas do Sistema</h2>
-    <div class="button-grid">
-      <a href="pages/organizacoes.html" class="menu-button">ORGANIZAÇÕES</a>
-      <a href="pages/relacionamentos.html" class="menu-button">RELACIONAMENTOS</a>
-    </div>
-  </section>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StatusProj — Sistema de Visualização e Modificação de Status de Projetos</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>StatusProj</h1>
+    <p class="subtitle">Sistema de Visualização e Modificação de Status de Projetos</p>
+  </header>
 
-  <section class="menu">
-    <h2>Exportação e Importação</h2>
-    <div class="button-grid">
-      <button onclick="exportJSON()">EXPORTAR JSON</button>
-      <label class="import-label">
-        IMPORTAR JSON
-        <input type="file" accept=".json" onchange="importJSON(this)">
-      </label>
-    </div>
-  </section>
-</main>
+  <main>
+    <section class="menu">
+      <h2>Páginas do Sistema</h2>
+      <div class="button-grid">
+        <a href="pages/organizacoes.html" class="menu-button">ORGANIZAÇÕES</a>
+        <a href="pages/relacionamentos.html" class="menu-button">RELACIONAMENTOS</a>
+      </div>
+    </section>
+
+    <section class="menu">
+      <h2>Gerenciamento de Dados</h2>
+      <div class="button-grid">
+        <button onclick="exportCache()">SALVAR CACHE</button>
+        <label class="import-label">
+          CARREGAR CACHE
+          <input type="file" accept=".json" onchange="importCache(this)">
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 StatusProj | Desenvolvido no âmbito do Grupo de Pesquisa ObservaGP</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

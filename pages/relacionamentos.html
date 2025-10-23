@@ -18,49 +18,27 @@
       <label>Organização:<input type="text" name="organizacao"></label>
       <label>Tipo de Relacionamento:<input type="text" name="tipo_relacionamento"></label>
       <label>Tipologia:<input type="text" name="tipologia"></label>
-      <label>Descrição (Objetivo Geral):<textarea name="descricao" rows="4"></textarea></label>
-
+      <label>Descrição (Objetivo Geral):<textarea name="descricao" rows="3"></textarea></label>
       <label>Fundação de Apoio:<input type="text" name="fundacao"></label>
-      <label>Número do Processo:<input type="text" name="processo" pattern="\d{5}\.\d{6}/\d{4}-\d{2}" placeholder="23147.004969/2023-95"></label>
+      <label>Número do Processo:<input type="text" name="processo" placeholder="23147.004969/2023-95"></label>
       <label>Data de Publicação no DOU:<input type="date" name="data_dou"></label>
       <label>Extrato de Convênio no DOU:<input type="text" name="extrato_dou"></label>
       <label>Duração da Vigência em Meses:<input type="number" name="duracao_meses"></label>
-
-      <fieldset>
-        <legend>Contrapartidas Financeiras</legend>
-        <label>Organização (Financ.):<input type="text" name="org_financ"></label>
-        <label>Financeira R$:<input type="text" name="valor_financ" class="currency"></label>
-      </fieldset>
-
-      <fieldset>
-        <legend>Contrapartidas Econômicas</legend>
-        <label>Organização (Econ.):<input type="text" name="org_econ"></label>
-        <label>Econômica R$:<input type="text" name="valor_econ" class="currency"></label>
-      </fieldset>
-
       <label>Unidade Institucional:<input type="text" name="unidade"></label>
 
       <fieldset>
         <legend>Campus de Execução</legend>
-        <div class="checkbox-grid">
-          <label><input type="checkbox" name="campus" value="Vitória"> Vitória</label>
-          <label><input type="checkbox" name="campus" value="Serra"> Serra</label>
-          <label><input type="checkbox" name="campus" value="Aracruz"> Aracruz</label>
-          <label><input type="checkbox" name="campus" value="Cariacica"> Cariacica</label>
-          <!-- (Demais campi podem ser adicionados depois) -->
-        </div>
+        <label><input type="checkbox" name="campus" value="Vitória"> Vitória</label>
+        <label><input type="checkbox" name="campus" value="Serra"> Serra</label>
+        <label><input type="checkbox" name="campus" value="Aracruz"> Aracruz</label>
       </fieldset>
 
       <label>Data de Início da Vigência:<input type="date" name="inicio"></label>
-      <label>Data de Término da Vigência:<input type="date" name="fim" onchange="calcularDuracao()"></label>
-
-      <p id="duracaoCalc" class="info-text">Diferença calculada entre data de Início e Término: <span>0 meses</span></p>
-
-      <p class="info-text">As alterações são salvas na exportação.</p>
+      <label>Data de Término da Vigência:<input type="date" name="fim"></label>
+      <p class="info-text">As alterações são salvas automaticamente no cache local.</p>
     </form>
   </main>
 
   <script src="../js/main.js"></script>
 </body>
 </html>
-

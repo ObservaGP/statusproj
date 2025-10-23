@@ -1,60 +1,79 @@
-// ============================
-// STATUSPROJ CORE FUNCTIONS
-// ============================
+// =====================================================
+// STATUSPROJ – CACHE LOCAL E EXPORTAÇÃO
+// =====================================================
 
-// Chave de validação do arquivo JSON
+const CACHE_KEY = "statusproj_cache";
 const VALIDATION_KEY = "OK_STATUSPROJ_FILE_V1";
 
-// ----------------------------
-// Função: Armazena campos localmente
-// ----------------------------
-document.addEventListener("input", (e) => {
-  const form = e.target.closest("form");
-  if (form) {
-    const page = location.pathname.includes("organizacoes")
-      ? "organizacoes"
-      : location.pathname.includes("relacionamentos")
-      ? "relacionamentos"
-      : null;
-
-    if (page) saveFormData(page);
+// Mostrar aviso inicial apenas uma vez
+window.addEventListener("DOMContentLoaded", () => {
+  if (!localStorage.getItem("statusproj_notice")) {
+    alert(
+      "Aviso: Este sistema cria um arquivo temporário local (statusproj_cache) no navegador.\n" +
+      "Suas alterações são salvas automaticamente e podem ser exportadas manualmente."
+    );
+    localStorage.setItem("statusproj_notice", "shown");
   }
+
+  // Criar cache se não existir
+  if (!localStorage.getItem(CACHE_KEY)) {
+    const initialData = {
+      statusproj_validation: VALIDATION_KEY,
+      organizacoes: {},
+      relacionamentos: {}
+    };
+    localStorage.setItem(CACHE_KEY, JSON.stringify(initialData));
+  }
+
+  // Carregar automaticamente os dados na página atual
+  const page = detectPage();
+  if (page) loadPageData(page);
 });
 
-function saveFormData(page) {
-  const data = {};
-  document.querySelectorAll("form input, form select, form textarea").forEach((el) => {
-    if (el.type === "checkbox") {
-      const checked = Array.from(document.querySelectorAll("input[type=checkbox]:checked")).map(c => c.value);
-      data[el.name] = checked;
-    } else {
-      data[el.name] = el.value;
-    }
-  });
-  localStorage.setItem(`statusproj_${page}`, JSON.stringify(data));
+// Detectar qual página está aberta
+function detectPage() {
+  if (location.pathname.includes("organizacoes")) return "organizacoes";
+  if (location.pathname.includes("relacionamentos")) return "relacionamentos";
+  return null;
 }
 
 // ----------------------------
-// Função: Carrega campos salvos
+// Salvar automaticamente
 // ----------------------------
-window.addEventListener("DOMContentLoaded", () => {
-  const page = location.pathname.includes("organizacoes")
-    ? "organizacoes"
-    : location.pathname.includes("relacionamentos")
-    ? "relacionamentos"
-    : null;
+document.addEventListener("input", (e) => {
+  const page = detectPage();
+  if (!page) return;
 
-  if (page) loadFormData(page);
+  const form = document.querySelector("form");
+  const formData = {};
+
+  form.querySelectorAll("input, select, textarea").forEach((el) => {
+    if (el.type === "checkbox") {
+      const checkboxes = Array.from(form.querySelectorAll("input[type=checkbox]:checked"))
+        .map((c) => c.value);
+      formData["campus"] = checkboxes;
+    } else {
+      formData[el.name] = el.value;
+    }
+  });
+
+  const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+  cache[page] = formData;
+  localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
 });
 
-function loadFormData(page) {
-  const data = JSON.parse(localStorage.getItem(`statusproj_${page}`) || "{}");
+// ----------------------------
+// Carregar dados do cache
+// ----------------------------
+function loadPageData(page) {
+  const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+  const data = cache[page] || {};
   for (const [key, value] of Object.entries(data)) {
     const el = document.querySelector(`[name="${key}"]`);
     if (!el) continue;
     if (Array.isArray(value)) {
       value.forEach(v => {
-        const cb = document.querySelector(`input[type=checkbox][name="${key}"][value="${v}"]`);
+        const cb = document.querySelector(`input[type=checkbox][value="${v}"]`);
         if (cb) cb.checked = true;
       });
     } else {
@@ -64,33 +83,26 @@ function loadFormData(page) {
 }
 
 // ----------------------------
-// Função: Exportar JSON consolidado
+// Exportar cache para JSON
 // ----------------------------
-function exportJSON() {
-  const org = JSON.parse(localStorage.getItem("statusproj_organizacoes") || "{}");
-  const rel = JSON.parse(localStorage.getItem("statusproj_relacionamentos") || "{}");
-
-  const allData = {
-    statusproj_validation: VALIDATION_KEY,
-    organizacoes: org,
-    relacionamentos: rel,
-  };
-
-  const blob = new Blob([JSON.stringify(allData, null, 2)], { type: "application/json" });
+function exportCache() {
+  const data = JSON.parse(localStorage.getItem(CACHE_KEY) || "{}");
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = "statusproj_dados.json";
+  a.download = "statusproj_cache.json";
   a.click();
   URL.revokeObjectURL(url);
+  alert("Arquivo de cache exportado com sucesso!");
 }
 
 // ----------------------------
-// Função: Importar JSON
+// Importar cache de JSON
 // ----------------------------
-function importJSON(fileInput) {
-  const file = fileInput.files[0];
+function importCache(input) {
+  const file = input.files[0];
   if (!file) return;
 
   const reader = new FileReader();
@@ -98,15 +110,32 @@ function importJSON(fileInput) {
     try {
       const data = JSON.parse(e.target.result);
       if (data.statusproj_validation !== VALIDATION_KEY) {
-        alert("Arquivo inválido! Estrutura não reconhecida.");
+        alert("Arquivo inválido ou corrompido.");
         return;
       }
-      localStorage.setItem("statusproj_organizacoes", JSON.stringify(data.organizacoes));
-      localStorage.setItem("statusproj_relacionamentos", JSON.stringify(data.relacionamentos));
-      alert("Dados importados com sucesso!");
-    } catch (err) {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+      alert("Cache importado com sucesso!");
+    } catch {
       alert("Erro ao ler o arquivo JSON.");
     }
   };
   reader.readAsText(file);
+}
+
+// ----------------------------
+// Adicionar nova opção nos selects
+// ----------------------------
+function addCustomOption(selectEl) {
+  if (selectEl.value === "nova") {
+    const nova = prompt("Digite o novo valor:");
+    if (nova) {
+      const opt = document.createElement("option");
+      opt.textContent = nova;
+      opt.value = nova;
+      selectEl.insertBefore(opt, selectEl.lastElementChild);
+      selectEl.value = nova;
+    } else {
+      selectEl.value = "";
+    }
+  }
 }

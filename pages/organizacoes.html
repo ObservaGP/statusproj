@@ -18,10 +18,10 @@
       <label>Sigla:<input type="text" name="sigla"></label>
       <label>Tipo:<input type="text" name="tipo"></label>
       <label>Nome Fantasia:<input type="text" name="nome_fantasia"></label>
-      <label>CNPJ:<input type="text" name="cnpj" pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}" placeholder="00.000.000/0000-00"></label>
+      <label>CNPJ:<input type="text" name="cnpj" placeholder="00.000.000/0000-00"></label>
 
       <label>Área de Atuação:
-        <select name="area_atuacao" id="areaAtuacaoSelect" onchange="addCustomOption(this)">
+        <select name="area_atuacao" onchange="addCustomOption(this)">
           <option value="">Selecione...</option>
           <option>Indústrias Extrativas</option>
           <option>Indústrias de transformação</option>
@@ -32,7 +32,7 @@
       </label>
 
       <label>Porte:
-        <select name="porte" id="porteSelect" onchange="addCustomOption(this)">
+        <select name="porte" onchange="addCustomOption(this)">
           <option value="">Selecione...</option>
           <option>Grandes Organizações</option>
           <option>Organização de pequeno porte</option>
@@ -41,11 +41,10 @@
       </label>
 
       <label>Observações:<textarea name="observacoes" rows="4"></textarea></label>
-      <button type="submit">Salvar</button>
+      <p class="info-text">As alterações são salvas automaticamente no cache local.</p>
     </form>
   </main>
 
   <script src="../js/main.js"></script>
 </body>
 </html>
-
