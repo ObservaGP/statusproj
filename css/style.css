@@ -93,3 +93,14 @@ button:hover {
   color: #555;
 }
 
+.import-label {
+  background: #008ea8;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+}
+.import-label input {
+  display: none;
+}
