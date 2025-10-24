@@ -1,107 +1,251 @@
+/* -------------------------------
+   STATUSPROJ DESIGN SYSTEM
+   Based on Penpot visual style
+--------------------------------*/
+
+:root {
+  /* Core colors */
+  --color-primary: #233D4D;
+  --color-primary-hover: #1C313E;
+  --color-secondary-bg: #FFFFFF;
+  --color-secondary-border: #233D4D;
+  --color-secondary-hover: #E9EDF0;
+  --color-text: #233D4D;
+  --color-subtext: #5A6A75;
+  --color-bg: #F7F8F9;
+
+  /* Font scale */
+  --font-family: "Inter", "Poppins", sans-serif;
+  --font-size-base: 1rem;
+  --font-size-title: 2.5rem;
+  --font-size-subtitle: 1.1rem;
+  --font-size-section: 1.2rem;
+
+  /* Spacing */
+  --radius: 6px;
+  --gap: 1rem;
+}
+
+/* Global layout */
 body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  font-size: 14px;
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   margin: 0;
   padding: 0;
-  background: #f8f9fa;
-  color: #222;
-}
-
-header {
-  background: #004d61;
-  color: #fff;
-  padding: 10px 20px;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.subtitle {
-  font-size: 13px;
-  opacity: 0.9;
-}
-
-main {
-  padding: 20px;
-}
-
-footer {
-  background: #004d61;
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
-  font-size: 12px;
-}
-
-form.data-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  max-width: 700px;
+  align-items: center;
+  min-height: 100vh;
 }
 
-input, select, textarea {
-  width: 100%;
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-family: inherit;
+/* Header */
+header {
+  text-align: center;
+  margin-top: 4rem;
+}
+header h1 {
+  font-size: var(--font-size-title);
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+header p.subtitle {
+  font-size: var(--font-size-subtitle);
+  color: var(--color-subtext);
 }
 
-button {
-  background: #006d83;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
+/* Main container */
+main {
+  width: 90%;
+  max-width: 800px;
+  margin-top: 3rem;
+}
+section {
+  margin-bottom: 3rem;
+}
+section h2 {
+  text-transform: uppercase;
+  font-size: var(--font-size-section);
+  color: var(--color-subtext);
+  margin-bottom: 1rem;
 }
 
-button:hover {
-  background: #008ea8;
-}
-
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 5px;
-}
-
+/* Button grid */
 .button-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: var(--gap);
 }
 
+/* Base button */
 .menu-button {
-  display: inline-block;
-  background: #006d83;
-  color: #fff;
-  padding: 10px 15px;
+  padding: 0.8rem 1.8rem;
+  font-size: var(--font-size-base);
+  border-radius: var(--radius);
   text-decoration: none;
-  border-radius: 5px;
-}
-
-.menu-button:hover {
-  background: #008ea8;
-}
-
-.info-text {
-  font-size: 12px;
-  color: #555;
-}
-
-.import-label {
-  background: #008ea8;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  display: inline-block;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid transparent;
 }
-.import-label input {
+
+/* Primary button */
+.primary {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+.primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Secondary button */
+.secondary {
+  background-color: var(--color-secondary-bg);
+  color: var(--color-text);
+  border-color: var(--color-secondary-border);
+}
+.secondary:hover {
+  background-color: var(--color-secondary-hover);
+}
+
+/* Inputs and labels */
+input[type="file"] {
   display: none;
 }
+label.import-label {
+  cursor: pointer;
+}
 
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: auto;
+  padding: 2rem 0;
+  font-size: 0.9rem;
+  color: var(--color-subtext);
+}
+
+/* Form elements (for other pages) */
+form label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+}
+form input, form select, form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  margin-top: 0.2rem;
+  box-sizing: border-box;
+}
+form input:focus, form select:focus, form textarea:focus {
+  outline: 2px solid var(--color-primary);
+}
+
+/* Info text */
+.info-text {
+  color: var(--color-subtext);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  main {
+    width: 95%;
+  }
+  .menu-button {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+}
+
+.warning-text {
+  color: #b22222;
+  font-weight: 600;
+  margin-left: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Mensagens perto da chave de criptografia */
+.warning-text{
+  display:inline-block;
+  color:#b22222;
+  font-weight:600;
+  margin-left:1rem;
+  font-size:0.9rem;
+  vertical-align:middle;
+}
+.warning-text .line1{display:block;}
+.warning-text .line2{display:block;margin-top:2px;}
+
+/* Aviso de salvamento local por página */
+.save-status{
+  text-align:center;
+  font-size:0.9rem;
+  color:#5b6b74;
+  margin: .3rem 0 0;
+}
+
+/* Mensagem de status de salvamento (rodapé) */
+#saveStatus{
+  color:#b22222;            /* vermelho como pediu */
+  font-weight:600;
+}
+
+/* Botão vermelho */
+.menu-button.danger{
+  background:#c0392b;       /* vermelho */
+  color:#fff;
+  border:1px solid #8e2a20;
+}
+.menu-button.danger:hover{
+  filter:brightness(0.95);
+}
+
+/* Botões do rodapé do bloco alinhados à direita (para o bloco 2) */
+.footer-buttons.right{
+  justify-content:flex-end;
+}
+
+/* Barra de ações abaixo do Bloco 1 */
+.action-bar{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:1rem 1.5rem 0 1.5rem;
+}
+
+/* Botões do lado esquerdo */
+.actions-left{ display:flex; align-items:center; gap:.8rem; }
+
+/* Deixa Voltar / Avançar / Salvar com o MESMO tamanho e conteúdo numa linha */
+.menu-button.same{
+  min-width: 140px;          /* ajuste fino se quiser 136–150 */
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+}
+
+/* Mensagem “As alterações…” logo após os botões (vermelho) */
+.status-inline{
+  color:#b22222;
+  font-weight:600;
+  white-space:nowrap;
+}
+
+/* empurra o copyright para a extrema direita */
+.flex-spacer{ flex:1 1 auto; }
+
+.copyright{
+  white-space:nowrap;
+  font-weight:600;
+}

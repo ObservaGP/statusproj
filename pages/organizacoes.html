@@ -1,50 +1,182 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Organizações — StatusProj</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/style.css"/>
+
+  <style>
+    /* --- ESTICA O CONTEÚDO NESTA PÁGINA (sobrescreve o estilo global) --- */
+    body { align-items: stretch; }
+    header, main, footer { width: 100vw; }
+    main { margin: 0; padding: 0; }
+
+    /* GRID PRINCIPAL */
+    .form-area{
+      display:flex;
+      justify-content:flex-start;
+      align-items:flex-start;
+      gap:2rem;
+      flex-wrap:nowrap;
+      overflow-x:auto;
+      margin-top:2rem;
+      padding:0 1rem;
+      width:110vw;
+      transition:margin-left .3s ease-in-out;
+    }
+    @media (max-width:1400px){
+      .form-area{ margin-left:-15vw; width:105vw; }
+    }
+    @media (max-width:1100px){
+      .form-area{ margin-left:0; width:100%; flex-wrap:wrap; justify-content:center; }
+    }
+
+    /* BLOCO DAS FICHAS */
+    .ficha{
+      background:#fff;
+      border:2px solid #233D4D;
+      border-radius:10px;
+      padding:1.2rem;
+      width:40%;
+      min-width:420px;
+      box-shadow:0 4px 10px rgba(0,0,0,.05);
+      position:relative;
+    }
+    .ficha h2{ text-align:left; font-size:1.1rem; color:#233D4D; margin-bottom:1rem; }
+
+    .form-grid-horizontal{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:1rem 1.2rem;
+    }
+    .form-grid-horizontal label{
+      display:flex; flex-direction:column;
+      font-weight:500; font-size:.95rem;
+    }
+
+    /* BOTÕES SUPERIORES (dentro das fichas) */
+    .action-top-right{
+      position:absolute; top:1rem; right:1rem; display:flex; gap:.5rem;
+    }
+
+    /* --- BARRA DE AÇÕES GERAL (fora das fichas) --- */
+    .action-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:1rem 1.5rem 0 1.5rem;
+    }
+    .actions-left{ display:flex; align-items:center; gap:.8rem; }
+
+    /* status do salvamento (vermelho) */
+    #saveStatus{
+      color:#b22222; font-weight:600; text-align:right;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width:900px){
+      .form-area{ flex-direction:column; align-items:center; }
+      .ficha{ width:95%; }
+      .action-bar{ flex-direction:column; align-items:flex-start; gap:.6rem; }
+      #saveStatus{ text-align:left; }
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <h1>ORGANIZAÇÕES</h1>
-    <nav><a href="../index.html">← Voltar</a></nav>
-  </header>
+
+<body data-page="organizacoes">
+  <header><h1>ORGANIZAÇÕES</h1></header>
 
   <main>
-    <form class="data-form">
-      <label>Nome:<input type="text" name="nome"></label>
-      <label>Sigla:<input type="text" name="sigla"></label>
-      <label>Tipo:<input type="text" name="tipo"></label>
-      <label>Nome Fantasia:<input type="text" name="nome_fantasia"></label>
-      <label>CNPJ:<input type="text" name="cnpj" placeholder="00.000.000/0000-00"></label>
+    <div class="form-area">
+      <!-- BLOCO 1 (ESQUERDA) -->
+      <div class="ficha">
+        <div class="action-top-right">
+          <button class="menu-button primary" onclick="copyFormData('orgFormA','orgFormB')">➡ Copiar</button>
+        </div>
+        <h2>Versão:
+          <input type="text" id="versaoEsquerda" placeholder="Ex: v1.0" style="width:80px">
+        </h2>
 
-      <label>Área de Atuação:
-        <select name="area_atuacao" onchange="addCustomOption(this)">
-          <option value="">Selecione...</option>
-          <option>Indústrias Extrativas</option>
-          <option>Indústrias de transformação</option>
-          <option>Administração pública, defesa e seguridade social</option>
-          <option>Outras atividades e serviços</option>
-          <option value="nova">Inserir nova Área de Atuação...</option>
-        </select>
-      </label>
+        <form id="orgFormA" class="form-grid-horizontal">
+          <label>Nome:<input type="text" name="nome"></label>
+          <label>Sigla:<input type="text" name="sigla"></label>
+          <label>Tipo:<input type="text" name="tipo"></label>
+          <label>Nome Fantasia:<input type="text" name="nome_fantasia"></label>
+          <label>CNPJ:<input type="text" name="cnpj" placeholder="00.000.000/0000-00"></label>
+          <label>Área de Atuação:
+            <select name="area_atuacao">
+              <option value="">Selecione...</option>
+              <option>Indústrias Extrativas</option>
+              <option>Indústrias de transformação</option>
+              <option>Administração pública, defesa e seguridade social</option>
+              <option>Outras atividades e serviços</option>
+            </select>
+          </label>
+          <label>Porte:
+            <select name="porte">
+              <option value="">Selecione...</option>
+              <option>Grandes Organizações</option>
+              <option>Organização de pequeno porte</option>
+            </select>
+          </label>
+          <label style="grid-column:1/3;">Observações:<textarea name="observacoes" rows="3"></textarea></label>
+        </form>
+      </div>
 
-      <label>Porte:
-        <select name="porte" onchange="addCustomOption(this)">
-          <option value="">Selecione...</option>
-          <option>Grandes Organizações</option>
-          <option>Organização de pequeno porte</option>
-          <option value="nova">Inserir novo Porte...</option>
-        </select>
-      </label>
+      <!-- BLOCO 2 (DIREITA) -->
+      <div class="ficha">
+        <div class="action-top-right">
+          <button class="menu-button secondary" onclick="clearForm('orgFormB')">✖ Limpar</button>
+        </div>
+        <h2>Versão:
+          <input type="text" id="versaoDireita" placeholder="Ex: v2.0" style="width:80px">
+        </h2>
 
-      <label>Observações:<textarea name="observacoes" rows="4"></textarea></label>
-      <p class="info-text">As alterações são salvas automaticamente no cache local.</p>
-    </form>
+        <form id="orgFormB" class="form-grid-horizontal">
+          <label>Nome:<input type="text" name="nome"></label>
+          <label>Sigla:<input type="text" name="sigla"></label>
+          <label>Tipo:<input type="text" name="tipo"></label>
+          <label>Nome Fantasia:<input type="text" name="nome_fantasia"></label>
+          <label>CNPJ:<input type="text" name="cnpj" placeholder="00.000.000/0000-00"></label>
+          <label>Área de Atuação:
+            <select name="area_atuacao">
+              <option value="">Selecione...</option>
+              <option>Indústrias Extrativas</option>
+              <option>Indústrias de transformação</option>
+              <option>Administração pública, defesa e seguridade social</option>
+              <option>Outras atividades e serviços</option>
+            </select>
+          </label>
+          <label>Porte:
+            <select name="porte">
+              <option value="">Selecione...</option>
+              <option>Grandes Organizações</option>
+              <option>Organização de pequeno porte</option>
+            </select>
+          </label>
+          <label style="grid-column:1/3;">Observações:<textarea name="observacoes" rows="3"></textarea></label>
+        </form>
+      </div>
+    </div>
+
+    <!-- BARRA DE AÇÕES (fora das fichas) -->
+	<div class="action-bar">
+	  <div class="actions-left">
+		<a href="../index.html" class="menu-button secondary same">←&nbsp;Voltar</a>
+		<a href="relacionamentos.html" class="menu-button primary same">Avançar&nbsp;→</a>
+		<button type="button" class="menu-button danger same" onclick="savePageNow()">Salvar</button>
+	  </div>
+
+	  <span id="saveStatus" class="status-inline">As alterações são salvas localmente.</span>
+
+	  <div class="flex-spacer"></div>
+	  <span class="copyright">© 2025 StatusProj</span>
+	</div>
   </main>
 
+  <footer></footer>
   <script src="../js/main.js"></script>
 </body>
 </html>

@@ -1,44 +1,119 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Relacionamentos — StatusProj</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/style.css"/>
+
+  <style>
+    /* --- ESTICA O CONTEÚDO --- */
+    body { align-items: stretch; }
+    header, main, footer { width: 100vw; }
+    main { margin: 0; padding: 0; }
+
+    /* GRID PRINCIPAL */
+    .form-area{
+      display:flex; justify-content:flex-start; align-items:flex-start;
+      gap:2rem; flex-wrap:nowrap; overflow-x:auto;
+      margin-top:2rem; padding:0 1rem; width:110vw; transition:margin-left .3s;
+    }
+    @media (max-width:1400px){ .form-area{ margin-left:-15vw; width:105vw; } }
+    @media (max-width:1100px){ .form-area{ margin-left:0; width:100%; flex-wrap:wrap; justify-content:center; } }
+
+    /* FICHAS */
+    .ficha{
+      background:#fff; border:2px solid #233D4D; border-radius:10px;
+      padding:1.2rem; width:40%; min-width:420px; box-shadow:0 4px 10px rgba(0,0,0,.05); position:relative;
+    }
+    .ficha h2{ text-align:left; font-size:1.1rem; color:#233D4D; margin-bottom:1rem; }
+
+    .form-grid-horizontal{ display:grid; grid-template-columns:repeat(2,1fr); gap:1rem 1.2rem; }
+    .form-grid-horizontal label{ display:flex; flex-direction:column; font-weight:500; font-size:.95rem; }
+
+    .action-top-right{ position:absolute; top:1rem; right:1rem; display:flex; gap:.5rem; }
+
+    /* BARRA DE AÇÕES GERAL */
+    .action-bar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:1rem; padding:1rem 1.5rem 0 1.5rem;
+    }
+    .actions-left{ display:flex; align-items:center; gap:.8rem; }
+    #saveStatus{ color:#b22222; font-weight:600; text-align:right; }
+
+    @media (max-width:900px){
+      .form-area{ flex-direction:column; align-items:center; }
+      .ficha{ width:95%; }
+      .action-bar{ flex-direction:column; align-items:flex-start; gap:.6rem; }
+      #saveStatus{ text-align:left; }
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <h1>RELACIONAMENTOS</h1>
-    <nav><a href="../index.html">← Voltar</a></nav>
-  </header>
+
+<body data-page="relacionamentos">
+  <header><h1>RELACIONAMENTOS</h1></header>
 
   <main>
-    <form class="data-form">
-      <label>Título:<input type="text" name="titulo"></label>
-      <label>Organização:<input type="text" name="organizacao"></label>
-      <label>Tipo de Relacionamento:<input type="text" name="tipo_relacionamento"></label>
-      <label>Tipologia:<input type="text" name="tipologia"></label>
-      <label>Descrição (Objetivo Geral):<textarea name="descricao" rows="3"></textarea></label>
-      <label>Fundação de Apoio:<input type="text" name="fundacao"></label>
-      <label>Número do Processo:<input type="text" name="processo" placeholder="23147.004969/2023-95"></label>
-      <label>Data de Publicação no DOU:<input type="date" name="data_dou"></label>
-      <label>Extrato de Convênio no DOU:<input type="text" name="extrato_dou"></label>
-      <label>Duração da Vigência em Meses:<input type="number" name="duracao_meses"></label>
-      <label>Unidade Institucional:<input type="text" name="unidade"></label>
+    <div class="form-area">
+      <!-- BLOCO 1 -->
+      <div class="ficha">
+        <div class="action-top-right">
+          <button class="menu-button primary" onclick="copyFormData('relFormA','relFormB')">➡ Copiar</button>
+        </div>
+        <h2>Versão:
+          <input type="text" id="versaoEsquerda" placeholder="Ex: v1.0" style="width:80px">
+        </h2>
 
-      <fieldset>
-        <legend>Campus de Execução</legend>
-        <label><input type="checkbox" name="campus" value="Vitória"> Vitória</label>
-        <label><input type="checkbox" name="campus" value="Serra"> Serra</label>
-        <label><input type="checkbox" name="campus" value="Aracruz"> Aracruz</label>
-      </fieldset>
+        <form id="relFormA" class="form-grid-horizontal">
+          <label>Título:<input type="text" name="titulo"></label>
+          <label>Organização:<input type="text" name="organizacao"></label>
+          <label>Tipo de Relacionamento:<input type="text" name="tipo_relacionamento"></label>
+          <label>Tipologia:<input type="text" name="tipologia"></label>
+          <label style="grid-column:1/3;">Descrição (Objetivo Geral):<textarea name="descricao" rows="3"></textarea></label>
+          <label>Fundação de Apoio:<input type="text" name="fundacao"></label>
+          <label>Número do Processo:<input type="text" name="processo" placeholder="23147.004969/2023-95"></label>
+          <label>Duração da Vigência (meses):<input type="number" name="duracao"></label>
+        </form>
+      </div>
 
-      <label>Data de Início da Vigência:<input type="date" name="inicio"></label>
-      <label>Data de Término da Vigência:<input type="date" name="fim"></label>
-      <p class="info-text">As alterações são salvas automaticamente no cache local.</p>
-    </form>
+      <!-- BLOCO 2 -->
+      <div class="ficha">
+        <div class="action-top-right">
+          <button class="menu-button secondary" onclick="clearForm('relFormB')">✖ Limpar</button>
+        </div>
+        <h2>Versão:
+          <input type="text" id="versaoDireita" placeholder="Ex: v2.0" style="width:80px">
+        </h2>
+
+        <form id="relFormB" class="form-grid-horizontal">
+          <label>Título:<input type="text" name="titulo"></label>
+          <label>Organização:<input type="text" name="organizacao"></label>
+          <label>Tipo de Relacionamento:<input type="text" name="tipo_relacionamento"></label>
+          <label>Tipologia:<input type="text" name="tipologia"></label>
+          <label style="grid-column:1/3;">Descrição (Objetivo Geral):<textarea name="descricao" rows="3"></textarea></label>
+          <label>Fundação de Apoio:<input type="text" name="fundacao"></label>
+          <label>Número do Processo:<input type="text" name="processo" placeholder="23147.004969/2023-95"></label>
+          <label>Duração da Vigência (meses):<input type="number" name="duracao"></label>
+        </form>
+      </div>
+    </div>
+
+    <!-- BARRA DE AÇÕES (fora das fichas) -->
+	<div class="action-bar">
+	  <div class="actions-left">
+		<a href="organizacoes.html" class="menu-button secondary same">←&nbsp;Voltar</a>
+		<a href="../index.html" class="menu-button primary same">Avançar&nbsp;→</a>
+		<button type="button" class="menu-button danger same" onclick="savePageNow()">Salvar</button>
+	  </div>
+
+	  <span id="saveStatus" class="status-inline">As alterações são salvas localmente.</span>
+
+	  <div class="flex-spacer"></div>
+	  <span class="copyright">© 2025 StatusProj</span>
+	</div>
   </main>
 
+  <footer></footer>
   <script src="../js/main.js"></script>
 </body>
 </html>

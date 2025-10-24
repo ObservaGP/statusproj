@@ -6,6 +6,7 @@
   <title>StatusProj — Sistema de Visualização e Modificação de Status de Projetos</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   <header>
     <h1>StatusProj</h1>
@@ -13,29 +14,37 @@
   </header>
 
   <main>
-    <section class="menu">
+    <section>
       <h2>Páginas do Sistema</h2>
       <div class="button-grid">
-        <a href="pages/organizacoes.html" class="menu-button">ORGANIZAÇÕES</a>
-        <a href="pages/relacionamentos.html" class="menu-button">RELACIONAMENTOS</a>
+        <a href="pages/organizacoes.html" class="menu-button primary">ORGANIZAÇÕES</a>
+        <a href="pages/relacionamentos.html" class="menu-button primary">RELACIONAMENTOS</a>
       </div>
     </section>
 
-    <section class="menu">
+	<section>
+	  <h2>Segurança</h2>
+	  <label>CHAVE DE CRIPTOGRAFIA:
+		<input type="text" id="cryptoKey" maxlength="10" placeholder="Até 10 letras/números">
+	  </label>
+	  <span id="cryptoMessage" class="warning-text"></span>
+	</section>
+
+    <section>
       <h2>Gerenciamento de Dados</h2>
       <div class="button-grid">
-        <button onclick="exportCache()">SALVAR CACHE</button>
-        <label class="import-label">
-          CARREGAR CACHE
+        <button class="menu-button secondary" onclick="exportCache()">💾 Exportar JSON</button>
+        <label class="menu-button secondary import-label">
+          📂 Importar JSON
           <input type="file" accept=".json" onchange="importCache(this)">
         </label>
       </div>
     </section>
   </main>
 
-  <footer>
-    <p>© 2025 StatusProj | Desenvolvido no âmbito do Grupo de Pesquisa ObservaGP</p>
-  </footer>
+	<footer>
+	  <p id="saveStatus">© 2025 StatusProj | As alterações são salvas localmente.</p>
+	</footer>
 
   <script src="js/main.js"></script>
 </body>
